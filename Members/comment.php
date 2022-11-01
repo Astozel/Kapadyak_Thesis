@@ -94,7 +94,7 @@ date_default_timezone_set('Asia/Manila');
                     $res=explode(" ",$res);
                     $count=count($res)-1;    
                             ?><div class="comment-body-videos"><?php
-                            $vidcounter=0; 
+
                             for($i=0;$i<$count;$i++)
                             {
                                 $tmp = explode('.', $res[$i]);
@@ -107,7 +107,6 @@ date_default_timezone_set('Asia/Manila');
                                 case "ogg":
                                 case "webm":
                                     $mediaType = "video";
-                                    $vidcounter++;
                                     break;
                                 case "jpg":
                                 case "jpeg":
@@ -126,7 +125,7 @@ date_default_timezone_set('Asia/Manila');
                         } ?></div>
                     <div class="comment-body-images">
                         <?php
-                        $imgcounter=0;  $imgcount=0; 
+                    $imgcounter=0;  $imgcount=0;  $vidcounter=0; 
                         for($i=0;$i<$count;$i++)
                         {
                   
@@ -154,6 +153,8 @@ date_default_timezone_set('Asia/Manila');
                             
                             if($mediaType == "image"){
                                 $imgcount++;
+                            } elseif($mediaType == "video"){
+                                $vidcounter++; 
                             }
                         }
                         for($i=0;$i<$count;$i++)
@@ -187,19 +188,34 @@ date_default_timezone_set('Asia/Manila');
                                 ?>
                                 
                                 <?php 
-                                if($imgcount == 3){
+                                if($imgcount == 3 && $vidcounter == 0){
                                     ?> 
                                     <div class="comment-body-images-container comment-body-images-container-three" id="images-container">
                                     <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
                                     <?php
-                                }elseif($imgcount == 2){
+                                }elseif($imgcount == 2 && $vidcounter == 0){
                                     ?> 
                                     <div class="comment-body-images-container comment-body-images-container-two" id="images-container">
                                     <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
                                     <?php
-                                }elseif($imgcount == 1){
+                                }elseif($imgcount == 1 && $vidcounter == 0){
                                     ?> 
                                     <div class="comment-body-images-container comment-body-images-container-one" id="images-container">
+                                    <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                    <?php
+                                }elseif($imgcount == 3 && $vidcounter > 0){
+                                    ?> 
+                                    <div class="comment-body-images-container comment-body-images-container-three" id="images-container">
+                                    <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                    <?php
+                                }elseif($imgcount == 2 && $vidcounter > 0){
+                                    ?> 
+                                    <div class="comment-body-images-container comment-body-images-container-two-wvid" id="images-container">
+                                    <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                    <?php
+                                }elseif($imgcount == 1 && $vidcounter > 0){
+                                    ?> 
+                                    <div class="comment-body-images-container comment-body-images-container-one-wvid" id="images-container">
                                     <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
                                     <?php
                                 } else{
@@ -207,20 +223,21 @@ date_default_timezone_set('Asia/Manila');
                                     <div class="comment-body-images-container" id="images-container">
                                     <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
                                     <?php
+                                    
                                     if($imgcounter == 4){ //4th iteration
-                                        if($imgcounter >= 4 && $vidcounter > 0){
-                                        $counter = ($imgcounter-3)+($vidcounter-1);
+                                        if($imgcount >= 4 && $vidcounter > 0){
+                                        $counter = ($imgcounter-3)+($vidcounter-1)+($imgcount-$imgcounter);
                                         ?>
                                         <div class="comment-body-excesscounter"><?php echo "+".$counter; ?></div>
                                         <?php
                                         } elseif($imgcount > 4){
-                                            $counter = ($imgcount-3);
+                                            $counter = ($imgcounter-3)+($imgcount-$imgcounter);
                                             ?>
                                             <div class="comment-body-excesscounter"><?php echo "+".$counter; ?></div>
                                             <?php
                                         }
-
                                     }
+
                                 }
 
                                 ?>

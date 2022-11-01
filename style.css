@@ -2101,10 +2101,21 @@ header{
     width: 150px;
 }
 .comment-body-images-container-three{
-    flex: 0 0 33%;
+    flex: 1 0 33%;
     height: 300px;
     width: 500px;
 }
+.comment-body-images-container-one-wvid{
+    flex: 1 0 100%;
+    height: 300px;
+    width: 300px;
+}
+.comment-body-images-container-two-wvid{
+    flex: 0 0 50%;
+    height: 300px;
+    width: 300px;
+}
+
 
 .comment-body-images-container > img{
     /* flex-grow: 1; */
