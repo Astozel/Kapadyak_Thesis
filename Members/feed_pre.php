@@ -287,8 +287,19 @@ include('../session.php');
     <div class="feed-card-heading">
       <table border="0">
       <tr>
-        <th rowspan="2"> <img src="<?php if($access=="Admin"){echo  "../images/logo_forum.png";}else{echo  $post_row['image'];}?>" width="40" height="40" alt="..." class="img-square"> </th>
-      
+        <th rowspan="2"> 
+          <img src="
+            <?php if($access=="Admin"){echo  "../images/logo_forum.png";}else{
+            $getImage = $post_row['image'];
+            if($getImage == ""){
+              echo "../Images/default-profile.png";
+            } else{
+              echo $post_row['image'];
+            }
+          }
+            ?>
+          " class="img-square"> </th>
+        
         <td class="card-heading-name">
           <?php 
 
@@ -310,13 +321,18 @@ include('../session.php');
           ?>
         </td>
         <?php if($post_row['member_id']==$id2){ ?>
-        <td class="card-heading-buttons"> 
-        <a href="post_editor.php<?php echo '?id='.$ppppp; ?>">
+        <td class="card-heading-buttons">
+        <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="getid" value="<?php echo $ppppp; ?>">
+        <button type="submit" name="edit-post" class="edit-delete-button">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
         </svg>
-        Edit</a>
+        Edit</button>
+        </form> 
+        
+   
         </td>
         <?php } ?>  
 
@@ -325,11 +341,14 @@ include('../session.php');
         <td class="card-heading-datetime"> <?php echo $post_row['date_posted'];?>  </td>
         <?php if($post_row['member_id']==$id2){ ?>
           <td class="card-heading-buttons">
-            <a href="delete_post.php<?php echo '?id='.$ppppp; ?>">
+          <form method="post" enctype="multipart/form-data">
+          <input type="hidden" name="getid" value="<?php echo $ppppp; ?>">
+          <button type="submit" name="delete-post" class="edit-delete-button">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
               <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
             </svg>
-            Delete</a>
+            Delete</button>
+            </form> 
           </td>
         <?php  } ?>  
       </tr>
@@ -339,7 +358,7 @@ include('../session.php');
    
     <div class="feed-card-body">
    
-              <div class="card-body-header"> 
+          <div class="card-body-header"> 
                 <ul> 
                   <li>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
@@ -390,24 +409,122 @@ include('../session.php');
                   <span>(<font color="blue"><?php echo $post_row['replies']; ?></font>)</span>
                   </li>
 
-                
                 </ul>
-              </div>
-              <div class="card-body-title">  
-               <?php 
-              if($post_row['post_image']!="../post_images/"){ ?> 
-               <img src="<?php echo $post_row['post_image']?>" alt="..." class="card-picture">
-               <div class="card-title-float"><?php echo $post_row['post_title']; ?></div><?php } 
-               else{
-                echo $post_row['post_title']; 
+          </div>
+
+            <div class="card-body-content">  
+              <?php 
+              $i="";
+              $iquery=mysqli_query($connect,"select post_image from post where post_id = '$ppppp'");
+              $data=mysqli_fetch_array($iquery);
+              $res=$data['post_image'];
+              $res=explode(" ",$res);
+              $count=count($res)-1;     
+
+              if($post_row['post_image'] != "" && $count > 1){ 
+                 
+                for($i=0;$i<$count;$i++)
+                {
+                    $tmp = explode('.', $res[$i]);
+                    $file_ext = end($tmp);
+                    $mediaType = "";
+
+                    switch ($file_ext) {
+                        case "mp4":
+                        case "mkv":
+                        case "mov":
+                        case "ogg":
+                        case "webm":
+                            $mediaType = "video";
+                            break;
+                        case "jpg":
+                        case "jpeg":
+                        case "gif":
+                        case "png":
+
+                        default:
+                            $mediaType = "image";
+                            break;
+                    }
+                    ?>
+                    <div class="card-body-background">
+                    <?php
+                    if($mediaType == "video"){
+                        ?>
+                        <video src="../post_videos/<?= $res[$i]?>"></video>
+                        <?php
+                    } else if($mediaType == "image"){
+                        ?>
+                        <img src="../post_images/<?= $res[$i]?>"/>
+                        <?php
+                    }
+                    ?>
+                    </div>
+                    <?php
+              } ?>
+
+                <div class="card-title-float">
+                  <?php echo $post_row['post_title']; ?>
+                </div><?php 
+
+              } else if($post_row['post_image'] != "" && $count == 1){ 
+                for($i=0;$i<$count;$i++)
+                {
+                    $tmp = explode('.', $res[$i]);
+                    $file_ext = end($tmp);
+                    $mediaType = "";
+
+                    switch ($file_ext) {
+                        case "mp4":
+                        case "mkv":
+                        case "mov":
+                        case "ogg":
+                        case "webm":
+                            $mediaType = "video";
+                            break;
+                        case "jpg":
+                        case "jpeg":
+                        case "gif":
+                        case "png":
+
+                        default:
+                            $mediaType = "image";
+                            break;
+                    }
+                    ?>
+                    <div class="card-body-background-single">
+                    <?php
+                    if($mediaType == "video"){
+                        ?>
+                        <video src="../post_videos/<?= $res[$i]?>"></video>
+                        <?php
+                    } else if($mediaType == "image"){
+                        ?>
+                        <img src="../post_images/<?= $res[$i]?>"/>
+                        <?php
+                    }
+                    ?>
+                    </div>
+                    <div class="card-title-float">
+                      <?php echo $post_row['post_title']; ?>
+                    </div>
+                    <?php
+                    
+              } 
+              }
+              else{?>
+                <div class="card-title-float-blank">
+                  <?php echo $post_row['post_title']; ?>
+                </div><?php
               }
               ?>
-                   </div>
+              
+              </div>
               <div class="card-popup">
               <a href="add_views.php?id=<?php echo $ppppp ?>">View Post</a>
               </div>
               
-    </div>
+            </div>
               
   </div>
   
@@ -415,6 +532,7 @@ include('../session.php');
 
 
 </div>
+
 
 
       <div class="add-post-button" onclick="showAddPost()"></div>
