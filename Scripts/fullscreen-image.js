@@ -1,9 +1,10 @@
 $('.media_full').hide();
+$('.comment_full').hide();
 $('.hidden_media_full').hide();
-$('.comment-body').ready(function () {
-    $('.comment-body-images-container img').click(function () {
+$('.viewpost-body').ready(function () {
+    $('.viewpost-body-images-container img').click(function () {
         var currImg = $(this);
-        var numImage = $('.comment-body-images').children().length;
+        var numImage = $('.viewpost-body-images').children().length;
         var total = numImage;
         var src = $(this).attr('src');
 
@@ -12,31 +13,36 @@ $('.comment-body').ready(function () {
         $('.img_view img').attr('src', src);
 
         $('.prev').off('click').click(function () {
-            if ($(currImg).closest('.comment-body-images-container').prev().find('img').length) {
-                $(currImg).closest('.comment-body-images-container').prev().find('img').trigger('click');
+            if ($(currImg).closest('.viewpost-body-images-container').prev().find('img').length) {
+                $(currImg).closest('.viewpost-body-images-container').prev().find('img').trigger('click');
             }
             else{
-                $('.comment-body-images-container img:last').trigger('click');
+                $('.viewpost-body-images-container img:last').trigger('click');
             }
 
         });
 
         $('.next').off('click').click(function () {
-            if ($(currImg).closest('.comment-body-images-container').next().find('img').length) {
-                $(currImg).closest('.comment-body-images-container').next().find('img').trigger('click');
+            if ($(currImg).closest('.viewpost-body-images-container').next().find('img').length) {
+                $(currImg).closest('.viewpost-body-images-container').next().find('img').trigger('click');
             }
             else{
-                $('.comment-body-images-container img:first').trigger('click');
+                $('.viewpost-body-images-container img:first').trigger('click');
             }
         });
 
     });
 
-    $('.comment-body-excesscounter').click(function () {
-
-
+    $('.viewpost-body-excesscounter').click(function () {
         $('.hidden_media_full').fadeIn(200);
+    });
 
+    $('.usercomment-body').ready(function () {
+        $('.usercomment-body-img img').click(function () {
+            $('.comment_full').fadeIn(200);
+            var src = $(this).attr('src');
+            $('.comment_img_view img').attr('src', src);
+        });
     });
 
     $('.view_close').click(function () {
@@ -45,6 +51,9 @@ $('.comment-body').ready(function () {
      
     $('.hidden_view_close').click(function () {
         $('.hidden_media_full').fadeOut(200);
+    });
+    $('.comment_view_close').click(function () {
+        $('.comment_full').fadeOut(200);
     });
 });
 

@@ -2,6 +2,10 @@ function showMenu() {
 	document.getElementById("profile").classList.toggle("active");
 }
 
+function showreply(){
+    document.getElementById("reply-form").classList.toggle("active");
+}
+
 function showImage(event){
     if(event.target.files.length > 0){
         var src = URL.createObjectURL(event.target.files[0]);
@@ -33,4 +37,11 @@ function hideDeletePost() {
 	document.getElementById("deletePost").classList.remove("active");
 
 }
+
+         $("input[type=file]").on("change", function () {
+          if(this.files[0].size > 52428800) {
+            alert("Please upload file less than 50MB.");
+            $(this).val('');
+          }
+          });
 

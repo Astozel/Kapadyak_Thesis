@@ -23,7 +23,7 @@ $firstname=$rowCount['first_name'];
 $lastname=$rowCount['last_name'];
 $username=$rowCount['username'];
 $id2 = $rowCount['member_id'];
-
+$userfullname = $rowCount['first_name']." ".$rowCount['middle_name']." ".$rowCount['last_name'];
 ?>
 
 <!-- $session_id=$_SESSION['id'];

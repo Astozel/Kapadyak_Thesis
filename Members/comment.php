@@ -69,20 +69,20 @@ date_default_timezone_set('Asia/Manila');
             ?>
 
             <!-- <h3>View Post</h3> -->
-            <div class="comment-container">
-                <div class="comment-header">
-                    <div class="comment-header-user"> 
-                        <div class="comment-header-img"><img src="<?php echo $pmimg;?>" alt="..."/></div>  
-                        <div class="comment-header-text">   
-                            <div class="comment-header-name"><?php echo $pmname; ?></div>
-                            <div class="comment-header-date"><?php echo $post_row['date_posted'];?></div>
+            <div class="viewpost-container">
+                <div class="viewpost-header">
+                    <div class="viewpost-header-user"> 
+                        <div class="viewpost-header-img"><img src="<?php echo $pmimg;?>" alt="..."/></div>  
+                        <div class="viewpost-header-text">   
+                            <div class="viewpost-header-name"><?php echo $pmname; ?></div>
+                            <div class="viewpost-header-date"><?php echo $post_row['date_posted'];?></div>
                         </div>
                     </div>
-                        <div class="comment-header-title"> 
+                        <div class="viewpost-header-title"> 
                             <?php echo $post_row['post_title']; ?>
                         </div>
                 </div>
-                <div class="comment-body">
+                <div class="viewpost-body">
                         <?php 
                     
                     if($post_row['post_image']!=""){  
@@ -92,8 +92,37 @@ date_default_timezone_set('Asia/Manila');
                         $res=$data['post_image'];
                         $res=explode(" ",$res);
                         $count=count($res)-1;    
-                                ?><div class="comment-body-videos"><?php
+                                ?><div class="viewpost-body-videos"><?php
                                 $imgcounter=0;  $imgcount=0;  $vidcounter=0; 
+                                for($i=0;$i<$count;$i++)
+                                {
+                        
+                                    $tmp = explode('.', $res[$i]);
+                                    $file_ext = end($tmp);
+                                    $mediaType = "";
+    
+                                    switch ($file_ext) {
+                                        case "mp4":
+                                        case "mkv":
+                                        case "mov":
+                                        case "ogg":
+                                        case "webm":
+                                            $mediaType = "video";
+                                            break;
+                                        case "jpg":
+                                        case "jpeg":
+                                        case "gif":
+                                        case "png":
+    
+                                        default:
+                                            $mediaType = "image";
+                                            break;
+                                    }
+                                    
+                                    if($mediaType == "image"){
+                                        $imgcount++;
+                                    }
+                                }
                                 for($i=0;$i<$count;$i++)
                                 {
                                     $tmp = explode('.', $res[$i]);
@@ -118,45 +147,28 @@ date_default_timezone_set('Asia/Manila');
                                 }
                                 if($mediaType == "video"){
                                     $vidcounter++; 
-                                    ?>
-                                    <video controls autoplay muted>
-                                        <source src="../post_videos/<?= $res[$i]?>">
-                                    </video>
-                                    <?php
+                                    if($vidcounter == 1 && $imgcount == 0){
+                                        ?> 
+                                        <div class="viewpost-body-videos-container viewpost-body-videos-container-one">
+                                        <video controls autoplay muted>
+                                            <source src="../post_videos/<?= $res[$i]?>">
+                                        </video>
+                                        </div>
+                                        <?php
+
+                                    }else{
+                                        ?>
+                                        <div class="viewpost-body-videos-container">
+                                        <video controls autoplay muted>
+                                            <source src="../post_videos/<?= $res[$i]?>">
+                                        </video>
+                                        </div>
+                                        <?php
+                                    }
                                 }   
                             } ?></div>
-                        <div class="comment-body-images">
-                            <?php
+                        <div class="viewpost-body-images"><?php
 
-                            for($i=0;$i<$count;$i++)
-                            {
-                    
-                                $tmp = explode('.', $res[$i]);
-                                $file_ext = end($tmp);
-                                $mediaType = "";
-
-                                switch ($file_ext) {
-                                    case "mp4":
-                                    case "mkv":
-                                    case "mov":
-                                    case "ogg":
-                                    case "webm":
-                                        $mediaType = "video";
-                                        break;
-                                    case "jpg":
-                                    case "jpeg":
-                                    case "gif":
-                                    case "png":
-
-                                    default:
-                                        $mediaType = "image";
-                                        break;
-                                }
-                                
-                                if($mediaType == "image"){
-                                    $imgcount++;
-                                }
-                            }
                             for($i=0;$i<$count;$i++)
                             {
                     
@@ -182,76 +194,66 @@ date_default_timezone_set('Asia/Manila');
                                         $imgcounter++; 
                                         break;
                                 }
-                                
+
                                 if($mediaType == "image"){
-                            
                                     ?>
-                                    
                                     <?php 
                                     if($imgcount == 3 && $vidcounter == 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-three" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-three" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                     }elseif($imgcount == 2 && $vidcounter == 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-two" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-two" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                     }elseif($imgcount == 1 && $vidcounter == 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-one" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-one" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                     }elseif($imgcount == 3 && $vidcounter > 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-three" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-three" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                     }elseif($imgcount == 2 && $vidcounter > 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-two-wvid" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-two-wvid" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                     }elseif($imgcount == 1 && $vidcounter > 0){
                                         ?> 
-                                        <div class="comment-body-images-container comment-body-images-container-one-wvid" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container viewpost-body-images-container-one-wvid" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
-                                    } else{
+                                    }else{
                                         ?>
-                                        <div class="comment-body-images-container" id="images-container">
-                                        <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                        <div class="viewpost-body-images-container" id="images-container">
+                                        <img src="../post_images/<?= $res[$i]?>"/>
                                         <?php
                                         
                                         if($imgcounter == 4){ //4th iteration
                                             if($imgcount >= 4 && $vidcounter > 0){
                                             $counter = ($imgcounter-3)+($vidcounter-1)+($imgcount-$imgcounter);
                                             ?>
-                                            <div class="comment-body-excesscounter"><?php echo "+".$counter; ?></div>
+                                            <div class="viewpost-body-excesscounter"><?php echo "+".$counter; ?></div>
                                             <?php
                                             } elseif($imgcount > 4){
                                                 $counter = ($imgcounter-3)+($imgcount-$imgcounter);
                                                 ?>
-                                                <div class="comment-body-excesscounter"><?php echo "+".$counter; ?></div>
+                                                <div class="viewpost-body-excesscounter"><?php echo "+".$counter; ?></div>
                                                 <?php
                                             }
                                         }
 
                                     }
-
-                                    ?>
-                                    </div>
+                                    ?></div>
                                     <?php
-            
                                 }
-                        
-                            } 
-                            
-                        ?>
-
-    
-                        </div>
+                        } 
+                    ?></div>
                     <div class="media_full">
                         <div class="img_view">
                             <img id="img" src="" alt="" />
@@ -296,7 +298,7 @@ date_default_timezone_set('Asia/Manila');
                             }
                             if($mediaType == "video"){
                                 ?>
-                                <div class="comment-body-container-vid">
+                                <div class="viewpost-body-container-vid">
                                 <video controls autoplay muted>
                                     <source src="../post_videos/<?= $res[$i]?>">
                                 </video>
@@ -328,35 +330,33 @@ date_default_timezone_set('Asia/Manila');
                             }
                             if($mediaType == "image"){   
                                 ?>
-                                <span class="comment-body-container">
-                                <img src="../post_images/<?= $res[$i]?>" data-enlargable/>
+                                <span class="viewpost-body-container">
+                                <img src="../post_images/<?= $res[$i]?>"/>
                                 </span>
                                 <?php
                             }
                         } 
                         }
                             ?>
-
                         <button class="hidden_view_close view_close" type="button">&times;</button>
                     </div>
 
                     <script src="../Scripts/fullscreen-image.js"></script>
                     
                     </div>  <!--comment-body close -->
-                            <div class="comment-body-text">
+                            <div class="viewpost-body-text">
                                 <?php echo nl2br($post_row['post_content']); ?>
                             </div>
                         <?php }else{ ?>
                     </div> <!--comment-body close -->
-                            <div class="comment-body-text-blank">   
+                            <div class="viewpost-body-text-blank">   
                                 <?php echo nl2br($post_row['post_content']); ?>
                             </div>
                         <?php } ?>
 
                 </div> <!--comment-container close -->
 
-               <h2>COMMENT</h2>    
-                
+      
                 <?php	
                 $ccomment_query = $conn->query("select * from comment where post_id='$ppppp' order by comment_id ASC");
                 while($ccomment_row = $ccomment_query->fetch())
@@ -387,47 +387,80 @@ date_default_timezone_set('Asia/Manila');
                 ?>
 
             
-            <div class="comment-container">
-                <div class="comment-header">
-                        <div class="comment-header-content">
-                            <div class="comment-header-img"><img src="<?php echo $cpics; ?>" alt="..."/></div>       
-                            <div class="comment-header-text">
-                                <div class="comment-header-name"><?php echo $cmname;?></div>
-                                <div class="comment-header-date"><?php echo $ccomment_row['date_commented'];?></div>
-                            </div>
-                            <div class="comment-header-title"> 
-                                <h1><?php echo $post_row['post_title']; ?></h1>
-                            </div>
+            <div class="usercomment-container">
+                    <div class="usercomment-header-img"><img src="<?php echo $cpics; ?>" alt="..."/></div>       
+                    <div class="usercomment-header-text">
+                        <div class="usercomment-header-name"><?php echo $cmname;?></div>
+                        <div class="usercomment-header-date"><?php echo $ccomment_row['date_commented'];?></div>
+                    </div>
+               <div class="usercomment-body">
+                
+                    <?php if($cimg=="../comment_images/"){  ?>
+                        <div class="usercomment-body-text-blank">
+                            <?php  echo $ccomment_row['comment_content']; ?> 
                         </div>
-                </div>
-               <div class="comment-body">
+                    <?php }else{ ?> 
+                        <?php
+                            $tmp = explode('.', $cimg);
+                            $file_ext = end($tmp);
+                            $mediaType = "";
+                            switch ($file_ext) {
+                            case "mp4":
+                            case "mkv":
+                            case "mov":
+                            case "ogg":
+                            case "webm":
+                                $mediaType = "video";
+                                break;
+                            case "jpg":
+                            case "jpeg":
+                            case "gif":
+                            case "png":
+
+                            default:
+                                $mediaType = "image";
+                                break;
+                            }
+                            if($mediaType == "video"){
+                                ?>
+                                <div class="usercomment-body-vid">
+                                <video controls autoplay muted>
+                                    <source src="<?php echo $cimg ?>">
+                                </video>
+                                </div>
+                                <?php
+                            }elseif($mediaType == "image"){
+                                ?>
+                                <div class="usercomment-body-img">
+                                    <img src="<?php echo $cimg ?>" data-enlargable/>
+                                </div>
+                                <?php
+                            }
+                        ?>         
+                        <div class="usercomment-body-text">
+                            <?php  echo $ccomment_row['comment_content']; ?>
+                        </div>
+                    <?php } ?>
+                    
+               </div>
+
+               <div class="usercomment-controls">
+                    <button class="usercomment-controls-button" onclick="showreply()">Reply</button>
+                    
                     <?php 
                     if($cm_id==$id2 and $access=="Member")
                     { 
                     ?>
-                    <a href="del_comment.php?comment_id=<?php echo $ccccc;?>&post_id=<?php echo $get_id; ?>">Delete</a>
+                    <a href="del_comment.php?comment_id=<?php echo $ccccc;?>&post_id=<?php echo $get_id; ?>">
+                        <button class="usercomment-controls-button">Delete</button>
+                    </a>
                     <?php 
                     } 
                     else   
                     {} 
                     ?>
-                    <?php if($cimg=="../comment_images/"){  ?>
-                        <div class="comment-body-text">
-                            <?php  echo nl2br($ccomment_row['comment_content']); ?> 
-                        </div>
-                    <?php }else{ ?>          
-                        <div class="comment-body-img">
-                            <img src="<?php echo $cimg ?>" alt="..."/>
-                        </div>
-                        <div class="comment-body-text">
-                            <?php  echo nl2br($ccomment_row['comment_content']); ?>
-                        </div>
-                    <?php } ?>
-               </div>
+                </div>  
             </div>
-                 
-        <h2>REPLY</h2>
-
         <?php	$repz_query = $conn->query("select * from repz where comment_id='$ccccc' order by reply_id ASC");
         while($repz_row = $repz_query->fetch())
         {
@@ -456,52 +489,104 @@ date_default_timezone_set('Asia/Manila');
         }
         ?>
                 
-                
-            <div class="comment-container comment-container-reply">
-                <div class="comment-header">
-                    <div class="comment-header-content">
-                        <div class="comment-header-img"><img src="<?php echo $rpics; ?>" alt="..."/></div>       
-                            <div class="comment-header-text">
-                                <div class="comment-header-name"><?php  echo $rmname;  ?></div>
-                                <div class="comment-header-date"><?php echo $repz_row['date_replied'];?></div>
-                            </div>
-                        <div class="comment-header-title"> 
-                            <h1><?php echo $post_row['post_title']; ?></h1>
-                        </div>
+            <div class="usercomment-container userreply-container">
+                    <div class="usercomment-header-img"><img src="<?php echo $rpics; ?>" alt="..."/></div>       
+                    <div class="usercomment-header-text">
+                        <div class="usercomment-header-name"><?php echo $rmname;?></div>
+                        <div class="usercomment-header-date"><?php echo $repz_row['date_replied'];?></div>
                     </div>
-                </div>
-               <div class="comment-body">
-
-                    <a href="del_reply.php?repz_id=<?php echo $repz_id;?>&post_id=<?php echo $get_id; ?>">Delete</a>
-
-                   <?php if($rimg=="../repz_images/"){ ?> 
-                        <div class="comment-body-text">
-                            <?php  echo nl2br($repz_row['reply_content']); ?>
+               <div class="usercomment-body">
+                
+                    <?php if($rimg=="../repz_images/"){ ?> 
+                        <div class="usercomment-body-text">
+                            <?php  echo $repz_row['reply_content']; ?>
                         </div>
                     <?php }else{ ?>          
-                        <div class="comment-body-img">
-                            <img src="<?php echo $rimg ?>" alt="..."/>
-                        </div>
-                        <div class="comment-body-text">
-                            <?php  echo nl2br($repz_row['reply_content']); ?>
+                        <?php
+                            $tmp = explode('.', $cimg);
+                            $file_ext = end($tmp);
+                            $mediaType = "";
+                            switch ($file_ext) {
+                            case "mp4":
+                            case "mkv":
+                            case "mov":
+                            case "ogg":
+                            case "webm":
+                                $mediaType = "video";
+                                break;
+                            case "jpg":
+                            case "jpeg":
+                            case "gif":
+                            case "png":
+
+                            default:
+                                $mediaType = "image";
+                                break;
+                            }
+                            if($mediaType == "video"){
+                                ?>
+                                <div class="usercomment-body-vid">
+                                <video controls autoplay muted>
+                                    <source src="<?php echo $rimg ?>">
+                                </video>
+                                </div>
+                                <?php
+                            }elseif($mediaType == "image"){
+                                ?>
+                                <div class="usercomment-body-img">
+                                    <img src="<?php echo $rimg ?>" data-enlargable/>
+                                </div>
+                                <?php
+                            }
+                        ?>    
+                        <div class="usercomment-body-text">
+                            <?php  echo $repz_row['reply_content']; ?>
                         </div>
                     <?php } ?>
                </div>
+                <div class="usercomment-controls">
+                    <button class="usercomment-controls-button" onclick="showreply()">Reply</button>
+                    
+                    <?php 
+                    if($rm_id==$id2 and $access=="Member")
+                    { 
+                    ?>
+                    <a href="del_reply.php?repz_id=<?php echo $repz_id;?>&post_id=<?php echo $get_id; ?>">
+                        <button class="usercomment-controls-button">Delete</button>
+                    </a>
+                    <?php 
+                    } 
+                    else   
+                    {} 
+                    ?>
+                </div> 
             </div>
+
+ 
 
                         <?php 
                         } ?>  
-                        <form method="post" enctype="multipart/form-data" class="comment-form-reply">
+                        <form method="post" enctype="multipart/form-data" class="reply-form-container" id="reply-form">
                      
                         <input type="hidden" name="post_id" value="<?php echo $get_id; ?>" />
                         <input type="hidden" name="comment_id" value="<?php echo $ccomment_row['comment_id'];; ?>" />
-                            <div class="comment-body-inputs">
-                                <textarea name="reply_content" class="form-control" rows="2" placeholder="Reply here..." required autofocus></textarea>
+                        <div class="comment-body-inputs">
+                                <textarea name="reply_content" class="form-control" placeholder="What are your replies?" required autofocus></textarea>
+                        </div>
+
+                        <div class="comment-body-controls">
+                            <div class="comment-body-text">Reply as: <span><?php echo "&nbsp;".$userfullname; ?></span></div>
+                            <div class="comment-body-file">
+                                <label for="reply-image-upload" id="label-click">
+                                    <!-- <img src="" alt="..."> -->
+                                    <span id="span-text-reply">Choose file</span>
+                                </label>
+                                <input type="file" name="repz_image" id="reply-image-upload"/>
                             </div>
-                            <div class="comment-body-buttons">
-                                <input type="file" name="repz_image" class="comment-body-button-file" title="click to add image to your comment"/>
+                            <div class="comment-body-button">
+                                <button type="submit" name="reply">Reply</button>
                             </div>
-                                <button type="submit" name="reply" class="comment-body-button-button">Reply</button>
+                        </div>
                         </form>  
 
                       
@@ -511,22 +596,31 @@ date_default_timezone_set('Asia/Manila');
                 
                 
                 
-                 <!-- check -->
+                 <!-- comment -->
           
-                <form method="post" enctype="multipart/form-data" class="comment-form-comment">
-               
-                <input type="hidden" name="topic" value="<?php echo $ttttt; ?>" />
-                <input type="hidden" name="post_id" value="<?php echo $get_id; ?>" />
-				<div class="comment-body-inputs">
-                    <textarea name="comment_content" class="form-control" rows="2" placeholder="Comment here..." required autofocus></textarea>
-                </div>
-                <div class="comment-body-buttons">
-                    
-                    <input type="file" name="image" class="comment-body-button-file" title="click to add image to your comment"/>
-                </div>
-                <button type="submit" name="comment" class="comment-body-button-button">Comment</button>
+                <form method="post" enctype="multipart/form-data" class="comment-form-container">
+                    <input type="hidden" name="topic" value="<?php echo $ttttt; ?>" />
+                    <input type="hidden" name="post_id" value="<?php echo $get_id; ?>" />
+                    <div class="comment-body-inputs">
+                        <textarea name="comment_content" class="form-control" placeholder="What are your comments?" required autofocus></textarea>
+                    </div>
 
+                    <div class="comment-body-controls">
+                        <div class="comment-body-text">Comment as: <span><?php echo "&nbsp;".$userfullname; ?></span></div>
+                        <div class="comment-body-file">
+                            <label for="comment-image-upload" id="label-click">
+                                <!-- <img src="" alt="..."> -->
+                                <span id="span-text">Choose file</span>
+                            </label>
+                            <input type="file" name="image" id="comment-image-upload"/>
+                        </div>
+                        <div class="comment-body-button">
+                            <button type="submit" name="comment">Comment</button>
+                        </div>
+                    </div>
                 </form>
+                    <script src="../Scripts/fileshow.js"></script>
+               
                  <!-- check -->
                  
 
@@ -546,7 +640,7 @@ date_default_timezone_set('Asia/Manila');
 				$topic_id = $_POST['post_id'];
 				$comment_id = $_POST['comment_id'];
 				$reply_content = $_POST['reply_content'];
-				$date_replied = date('m'.'/'.'d'.'/'.'Y')." | ".date("h:i:sa");
+				$date_replied = date('M'.' '.'d'.', '.'Y')." | ".date("h:i:s A");
                 
                 
 			 $query_replies_ctr = $conn->query("select * from members where member_id='$id2'") or die(mysql_error());
@@ -588,7 +682,7 @@ date_default_timezone_set('Asia/Manila');
 				$topic = $_POST['topic'];
 				$post_idx = $_POST['post_id'];
 				$comment_content = $_POST['comment_content'];
-				$date_comment = date('m'.'/'.'d'.'/'.'Y')." | ".date("h:i:sa");
+				$date_comment = date('M'.' '.'d'.', '.'Y')." | ".date("h:i:s A");
 						
                         
                          $query_threads_ctr = $conn->query("select * from members where member_id='$id2'") or die(mysql_error());
@@ -613,5 +707,6 @@ date_default_timezone_set('Asia/Manila');
 
             </div>
         </div>
+        <script src="../Scripts/index.js"></script>
 </body>
 </html>

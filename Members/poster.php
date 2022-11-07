@@ -48,7 +48,6 @@ if (!isset($_SESSION['SessionEmail'])) {
                 <img id="image1-preview">
               </div>
             </div>
-      
     <div class="post-button">
 
     <button type="submit" name="post">Post</button>
@@ -69,9 +68,11 @@ if (!isset($_SESSION['SessionEmail'])) {
         $image_location="../post_images/";
         $video_location="../post_videos/";
         $data='';
-        
+       
         foreach($_FILES['image']['name'] as $key=>$val)
        {
+ 
+    
         $file=$_FILES['image']['name'][$key];
         $file = str_replace(' ', '_', $file);
         $file_tmp=$_FILES['image']['tmp_name'][$key];
@@ -108,12 +109,11 @@ if (!isset($_SESSION['SessionEmail'])) {
             $data = "";
         }
 
-       }
-
+  }
         $topic = $_POST['topic'];
         $post_title = $_POST['post_title'];
         $post_content = $_POST['post_content'];
-        $date_posted = date('M'.' '.'d'.', '.'Y')." | ".date("h:i:sa");
+        $date_posted = date('M'.' '.'d'.', '.'Y')." | ".date("h:i:s A");
  
         $query_topic_ctr = $conn->query("select * from members where member_id='$id2'") or die(mysql_error());
 		    while ($row_query_topic_ctr = $query_topic_ctr->fetch()) 
