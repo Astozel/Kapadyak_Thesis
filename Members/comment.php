@@ -43,6 +43,7 @@ date_default_timezone_set('Asia/Manila');
             $access=$post_row['access'];
             $replies=$post_row['replies'];
             $threads=$post_row['threads'];
+            $loc=$post_row['loc'];
             
             if($access=="Admin")
             {   
@@ -76,6 +77,16 @@ date_default_timezone_set('Asia/Manila');
                         <div class="viewpost-header-text">   
                             <div class="viewpost-header-name"><?php echo $pmname; ?></div>
                             <div class="viewpost-header-date"><?php echo $post_row['date_posted'];?></div>
+                            <?php if($loc!=""){  ?>
+                                <div class="viewpost-header-location">
+                                <a href="postmap.php?post_id=<?php echo $get_id; ?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                </svg>
+                                <span><?php echo $post_row['loc'];?></span>
+                                </a>
+                                </div>
+                            <?php }?> 
                         </div>
                     </div>
                         <div class="viewpost-header-title"> 
@@ -262,7 +273,12 @@ date_default_timezone_set('Asia/Manila');
                         <button class="next" id="next">▶</button>
                         <button class="view_close" type="button">&times;</button>
                     </div>
-
+                    <div class="comment_full">
+                        <div class="comment_img_view">
+                            <img id="img" src="" alt="" />
+                        </div>
+                        <button class="comment_view_close" type="button">&times;</button>
+                    </div>
                     <div class="hidden_media_full">
                         <?php
                         if($post_row['post_image']!=""){  

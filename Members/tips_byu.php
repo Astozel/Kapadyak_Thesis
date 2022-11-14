@@ -29,10 +29,6 @@ if (!isset($_SESSION['SessionEmail'])) {
   <div class="add-form-subtitles">Category:</div>
     <div> 
         <select name="topic" class="form-control">
-          <option>FEED</option>
-          <option>PRE LOVED</option>
-          <option>RENTAL</option>
-          <option>EVENTS</option>
           <option>TIPS</option>
         </select>
     </div>
@@ -41,13 +37,6 @@ if (!isset($_SESSION['SessionEmail'])) {
     <div class="add-form-subtitles">Description:</div>
         <textarea name="post_content" class="form-control" rows="12" required></textarea>
 
-            <div class="image-upload" title="Upload FIle">
-                <input type="file" id="image1" name="image" accept="image/*" onchange="showImage(event);">
-                <label for="image1">Upload Image</label>
-              <div class="image-preview">
-                <img id="image1-preview">
-              </div>
-            </div>
       
     <div class="post-button">
 
@@ -57,14 +46,6 @@ if (!isset($_SESSION['SessionEmail'])) {
 
     <?php
       if (isset($_POST['post'])){
-
-        $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
-        $image_name = addslashes($_FILES['image']['name']);
-        $image_size = getimagesize($_FILES['image']['tmp_name']);
-
-        move_uploaded_file($_FILES["image"]["tmp_name"], "../post_images/" . $_FILES["image"]["name"]);
-        
-        $location = "../post_images/" . $_FILES["image"]["name"];
 
         $topic = $_POST['topic'];
         $post_title = $_POST['post_title'];
@@ -78,7 +59,7 @@ if (!isset($_SESSION['SessionEmail'])) {
             	$conn->query("update members set topic_ctr='$ctr_topic' where member_id='$id2'");
         }
                               
-        $connect->query("insert into post (member_id,date_posted,post_content,post_title,post_image,topic,access) values('$id2','$date_posted','$post_content','$post_title','$location','$topic','Member')");
+        $connect->query("insert into post (member_id,date_posted,post_content,post_title,topic,access) values('$id2','$date_posted','$post_content','$post_title','$topic','Member')");
         if($topic=="TIPS")
         {
 
@@ -86,63 +67,13 @@ if (!isset($_SESSION['SessionEmail'])) {
         <script>
         window.location = 'tips.php';
         </script>
+        <?php
 
-
-
-          <?php
-              include('../connect/connection.php');
-          
-          
-                              require "../Mail/phpmailer/PHPMailerAutoload.php";
-                              $mail = new PHPMailer;
-              
-                              $mail->isSMTP();
-                              $mail->Host='smtp.gmail.com';
-                              $mail->Port=587;
-                              $mail->SMTPAuth=true;
-                              $mail->SMTPSecure='tls';
-              
-                              $mail->Username = 'teamkapadyak2022@gmail.com';
-                              $mail->Password = 'hsqqhqktekjzabfj';
-          
-                              $mail->setFrom('teamkapadyak2022@gmail.com', 'Kapadyak');
-                              $check_query = mysqli_query($connect, "SELECT * FROM members where email_status = '1'");
-                              $rowCount = mysqli_num_rows($check_query);
-                              if($rowCount>0){
-                              
-                                      while($x=mysqli_fetch_assoc($check_query)){
-          
-                                          $mail->addBCC($x['email_address']);
-          
-                                      }
-                                  $mail->isHTML(true);
-                                  $mail->Subject="New Event is Upcoming";
-                                  $mail->Body="<p>Kindly check out the new post on your event page.<br></h3>
-                                  <br><br>
-                                  <b>The Kapadyak Team</b>";
-                                  if($mail->send()){
-                                      echo "Success";
-                                  }
-                                  else 
-                                  echo "failed";
-                              }
-                              else{
-                                  echo "no data found";
-                              }
-                              ?>
-                        <script>
-                          window.location = 'feed_events.php';
-                        </script>	
-                        
-                        <?php  
-                                  }
-                                      
-                                       } ?>
+        }
+        } ?>
             
-            </div>
-            
-               
-          </div>
+    </div>             
+</div>
     
     
     

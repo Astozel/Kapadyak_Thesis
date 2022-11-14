@@ -26,7 +26,7 @@ include '../dbcon.php';
   <!-- floating add post  -->
 	<div class="add-post" id="addPost">
 		<div class="add-post-form">
-		<?php include 'poster.php';?>
+		<?php include 'poster_rental.php';?>
 		</div>
 	</div>
     <div class="index-container">

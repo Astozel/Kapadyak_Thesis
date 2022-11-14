@@ -1,5 +1,5 @@
 $('#comment-image-upload').on('change', function() {
-  if(this.files[0].size > 52428800) {
+  if(this.files[0].size > 524288) {
     alert("Please upload file less than 50MB.");
     $(this).val('');
   }else{
@@ -16,7 +16,7 @@ $('#comment-image-upload').on('change', function() {
 
 var comment;
 $("#comment-image-upload").change(function(event) {
-  if(this.files[0].size > 52428800) {
+  if(this.files[0].size > 524288) {
     alert("Please upload file less than 50MB.");
     $(this).val('');
   }else{
@@ -31,7 +31,7 @@ $("#comment-image-upload").change(function(event) {
 });
 
 $('#reply-image-upload').on('change', function() {
-  if(this.files[0].size > 52428800) {
+  if(this.files[0].size > 524288) {
     alert("Please upload file less than 50MB.");
     $(this).val('');
   }else{
@@ -48,7 +48,7 @@ $('#reply-image-upload').on('change', function() {
 
 var reply;
 $("#reply-image-upload").change(function(event) {
-  if(this.files[0].size > 52428800) {
+  if(this.files[0].size > 524288) {
     alert("Please upload file less than 50MB.");
     $(this).val('');
   }else{

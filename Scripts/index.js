@@ -8,6 +8,7 @@ function showreply(){
 
 function showImage(event){
     if(event.target.files.length > 0){
+        console.log(event.target.files[0]);
         var src = URL.createObjectURL(event.target.files[0]);
         var preview = document.getElementById("image1-preview");
         preview.src = src;
