@@ -18,7 +18,7 @@ $id = $_SESSION['id'];
 $query=mysqli_query ($connect,"SELECT * FROM members WHERE member_id ='$id'");
 $rowCount=mysqli_fetch_array($query);
 // $cover_picture = $rowCount['cover_picture'];
-// $profile_picture=$rowCount['profile_picture'];
+$userpicture=$rowCount['image'];
 $firstname=$rowCount['first_name'];
 $lastname=$rowCount['last_name'];
 $username=$rowCount['username'];
