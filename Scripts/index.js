@@ -20,7 +20,19 @@ function showAddPost() {
 	document.getElementById("addPost").classList.toggle("active");
 }
 function hideAddPost() {
-	document.getElementById("addPost").classList.remove("active");
+    if ($('.add-post-form-right-media').contents().length != 0){
+        if (confirm('Post will be discarded. Continue? ')) {
+            document.getElementById("addPost").classList.remove("active");
+            $('.add-post-form-right').css("display", "none");
+            $('.add-post-form-right-media').remove(); 
+            $('.add-post-form-right-media-hidden').remove(); 
+        } else{
+
+        }
+    }else{
+       
+    }
+   
 }
 
 function showEditPost() {

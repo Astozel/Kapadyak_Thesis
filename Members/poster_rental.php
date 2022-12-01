@@ -1,4 +1,3 @@
-
 <div class="add-post-container">
   <div class="close-button" onclick="hideAddPost()">
     <button>&times;</button>
@@ -52,16 +51,14 @@
           <div class="add-post-form-right-imgvid"></div>
 
           <script>
-            $('#image1').on('change', function() {
-              var fileList = document.getElementById("image1").files;
-              console.log(fileList);
-              if(fileList.length > 0){
-                $('.add-post-form-right').css("display", "block");
-                $('.add-post-form-right-media').remove(); 
-                $('.add-post-form-right-media-hidden').remove(); 
-            
-            
-            
+          $('#image1').on('change', function() {
+            var fileList = document.getElementById("image1").files;
+            console.log(fileList);
+            if(fileList.length > 0){
+              $('.add-post-form-right').css("display", "block");
+              $('.add-post-form-right-media').remove(); 
+              $('.add-post-form-right-media-hidden').remove(); 
+
               var vidcounter = 0;
               var imgcounter = 0;
               var counter = 0;

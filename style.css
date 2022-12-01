@@ -1969,7 +1969,7 @@ header{
     display: flex;
 }
 .poster_hidden > div {
-    flex: 0 0 50%;
+    flex: 1 0 50%;
     scroll-snap-align: center;
     display: flex;
     justify-content: center;
@@ -1980,7 +1980,7 @@ header{
 .poster_hidden > div > img,
 .poster_hidden > div > video{
     width:90%; 
-    height:70%; 
+    height:80%; 
     object-fit: contain;
     box-shadow: 0 0 .5em 0 white;
 }
