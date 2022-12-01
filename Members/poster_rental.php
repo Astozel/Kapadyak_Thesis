@@ -48,17 +48,24 @@
             <div class="add-post-form-right-user-img"><img src="<?php echo $userpicture;?>" alt="..."/></div>  
             <div class="add-post-form-right-user-name"><?php echo $userfullname; ?></div>
           </div>
+
           <div class="add-post-form-right-imgvid"></div>
 
           <script>
             $('#image1').on('change', function() {
-              $('.add-post-form-right-media').remove(); 
               var fileList = document.getElementById("image1").files;
               console.log(fileList);
+              if(fileList.length > 0){
+                $('.add-post-form-right').css("display", "block");
+                $('.add-post-form-right-media').remove(); 
+                $('.add-post-form-right-media-hidden').remove(); 
+            
+            
+            
               var vidcounter = 0;
               var imgcounter = 0;
               var counter = 0;
- 
+
               for(var i = 0 ; i < fileList.length ; i++){
                 var fileName = this.files[i].name;
                 var file_ext = fileName.split('.').pop();
@@ -80,39 +87,133 @@
                     mediaType = "image";
                     break;
                 }
-                 if(mediaType == "image"){
-                 
-                  counter = imgcounter + vidcounter;
-                  var div = document.createElement('div');
-                  Object.assign(div, {
-                  className: 'add-post-form-right-img add-post-form-right-media',
-                  })
-                  document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
-                  var img = document.createElement('img');
-                  img.src = URL.createObjectURL(this.files[counter]);
-                  document.getElementsByClassName('add-post-form-right-img')[imgcounter].appendChild(img);
-
-                  imgcounter++;
-                  console.log("img: "+imgcounter);
-
-                }if(mediaType == "video"){
+                
+                 if(mediaType == "video"){
                   counter = imgcounter + vidcounter;
                   var div = document.createElement('div');
                   Object.assign(div, {
                   className: 'add-post-form-right-vid add-post-form-right-media',
-                  })
-                  document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
-                  var vid = document.createElement('video');
-                  vid.src = URL.createObjectURL(this.files[counter]);
-                  vid.setAttribute("controls","");
-                  document.getElementsByClassName('add-post-form-right-vid')[vidcounter].appendChild(vid);
+                  });
+                  if(vidcounter >= 6){
+                    div.classList.remove("add-post-form-right-media");
+                    div.classList.add("add-post-form-right-media-hidden");
+                    document.getElementsByClassName("poster_hidden")[0].appendChild(div);
+                    var vid = document.createElement('video');
+                    vid.src = URL.createObjectURL(this.files[counter]);
+                    vid.setAttribute("controls","");
+                    document.getElementsByClassName('add-post-form-right-vid')[vidcounter+1].appendChild(vid);
+                  }else{
+                    //excess background
+                    if(vidcounter == 6){
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var vid = document.createElement('video');
+                      vid.src = URL.createObjectURL(this.files[counter]);
+                      vid.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter].appendChild(vid);
+                    //excess background - loop again to throw it in hidden
+                      var div2 = document.createElement('div');
+                      Object.assign(div2, {
+                      className: 'add-post-form-right-vid add-post-form-right-media',
+                      });
+                      div2.classList.remove("add-post-form-right-media");
+                      div2.classList.add("add-post-form-right-media-hidden");
+                      document.getElementsByClassName("poster_hidden")[0].appendChild(div2);
+                      var vid2 = document.createElement('video');
+                      vid2.src = URL.createObjectURL(this.files[counter]);
+                      vid2.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter+1].appendChild(vid2);
+                    }else{
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var vid = document.createElement('video');
+                      vid.src = URL.createObjectURL(this.files[counter]);
+                      vid.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter].appendChild(vid);
+                    }
+
+                  }
                   vidcounter++;
                   console.log("vid: "+vidcounter);
+
+                } else if(mediaType == "image"){
+                  imgcounter++;
+                  console.log("img: " + imgcounter);
                 }
               }
+
+              var vidcounter2 = 0;
+              var imgcounter2 = 0;
+              var counter2 = 0;
+
+                for(var i = 0 ; i < fileList.length ; i++){
+                var fileName = this.files[i].name;
+                var file_ext = fileName.split('.').pop();
+                var mediaType = "";
+                switch(file_ext) {
+                case "mp4":
+                case "mkv":
+                case "mov":
+                case "ogg":
+                case "webm":
+                    mediaType = "video";
+                    break;
+                case "jpg":
+                case "jpeg":
+                case "gif":
+                case "png":
+
+                default:
+                    mediaType = "image";
+                    break;
+                }
                 
-              //excess counter
-                if (i=5) {
+                 if(mediaType == "image"){
+                  counter2 = imgcounter2 + vidcounter2;
+                  var div = document.createElement('div');
+                  Object.assign(div, {
+                  className: 'add-post-form-right-img add-post-form-right-media',
+                  });
+                  if(counter2 >= 6){
+                    div.classList.remove("add-post-form-right-media");
+                    div.classList.add("add-post-form-right-media-hidden");
+                    document.getElementsByClassName("poster_hidden")[0].appendChild(div);
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(this.files[counter2]);
+                    document.getElementsByClassName('add-post-form-right-img')[imgcounter2+1].appendChild(img);
+                  }else{
+                    //excess background
+                    if(counter2 == 5){
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var img = document.createElement('img');
+                      img.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2].appendChild(img);
+
+                    //excess background - loop again to throw it in hidden
+                      var div2 = document.createElement('div');
+                      Object.assign(div2, {
+                      className: 'add-post-form-right-img add-post-form-right-media',
+                      });
+                      div2.classList.remove("add-post-form-right-media");
+                      div2.classList.add("add-post-form-right-media-hidden");
+                      document.getElementsByClassName("poster_hidden")[0].appendChild(div2);
+                      var img2 = document.createElement('img');
+                      img2.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2+1].appendChild(img2);
+                    }else{
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var img = document.createElement('img');
+                      img.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2].appendChild(img);
+                    }
+                  }
+                  imgcounter2++;
+                  console.log("img: " + imgcounter2);
+                  
+                } else if(mediaType == "video"){
+                  vidcounter2++;
+                  console.log("vid: "+vidcounter2);
+                }
+                  //excess counter
+                  if (i == 5) {
                   counter = (imgcounter + vidcounter)-5;
                   var excess = document.createElement('div');
                   Object.assign(excess, {
@@ -122,9 +223,11 @@
                   excess.appendChild(document.createTextNode("+" + counter));
                   document.getElementsByClassName('add-post-form-right-media')[i].appendChild(excess);
                   }  
-                        
-            });   
+              }
             
+            }
+            });   
+
           </script>
         </div>
 
@@ -134,7 +237,12 @@
                     </div>
                     <button class="poster_view_close" type="button">&times;</button>
                 </div>
+                <div class="poster_hidden">
+                  <button class="poster_hidden_view_close view_close" type="button">&times;</button>
+                </div>
+
                 <script src="../Scripts/fullscreen-image.js"></script>
+
     </div>
     <div class="post-button">
       <button type="submit" name="post">Post</button>

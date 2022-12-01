@@ -2,6 +2,7 @@ $('.media_full').hide();
 $('.comment_full').hide();
 $('.hidden_media_full').hide();
 $('.poster_full').hide();
+$('.poster_hidden').hide();
 $('.viewpost-body').ready(function () {
     $('.viewpost-body-images-container img').click(function () {
         var currImg = $(this);
@@ -53,6 +54,7 @@ $('.viewpost-body').ready(function () {
     $('.hidden_view_close').click(function () {
         $('.hidden_media_full').fadeOut(200);
     });
+
     $('.comment_view_close').click(function () {
         $('.comment_full').fadeOut(200);
     });
@@ -60,14 +62,20 @@ $('.viewpost-body').ready(function () {
 });
 
 $('.add-post-form-right-imgvid').ready(function () {
-    $(document).on("click", ".add-post-form-right-media img", function(){
+    $(this).on("click", ".add-post-form-right-media img", function(){
         $('.poster_full').fadeIn(200);
         var src = $(this).attr('src');
         $('.poster_img_view img').attr('src', src);
     });
+
 });
-    
+$(document).on("click", ".add-post-form-excesscounter", function(){
+    $('.poster_hidden').fadeIn(200);
+});
 $('.poster_view_close').click(function () {
     $('.poster_full').fadeOut(200);
 });
 
+$('.poster_hidden_view_close').click(function () {
+    $('.poster_hidden').fadeOut(200);
+});
