@@ -19,6 +19,7 @@ $get_id= $_GET['id'];
 	<link rel="ICON" type="image/x-icon" href="../Images/logo.ico">
 	<link rel="stylesheet" type="text/css" href="../style.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="../Scripts/index.js"></script>
 	<script src="../Scripts/passStrength.js"></script>
 				

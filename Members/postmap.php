@@ -2,18 +2,19 @@
 include_once 'header_map.php';
 include 'postmapinfo.php';
 //get_unconfirmed_locations();exit;
+$post_id=$_GET['post_id'];
 ?>
-
-
+    
     <div class="add-location-popup">
       <div class="add-location-container">
-        <button class="map-btn" type="button">&times;</button>
+        <a href="comment.php<?php echo "?id=".$post_id; ?>">
+        <button class="map-btn" type="button" id="map-close-btn">&times;</button>
+        </a>
         <div id="geocoder"></div>
         <div id="postmap"></div>
       </div>
     </div>
-
-
+  
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
     <style>

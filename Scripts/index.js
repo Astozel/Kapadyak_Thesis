@@ -2,6 +2,18 @@ function showMenu() {
 	document.getElementById("profile").classList.toggle("active");
 }
 
+$(".viewpost-header-name").on({
+    mouseenter: function () {
+        document.getElementById("SendMsg").classList.toggle("active");
+      
+    },
+    click: function () {
+        document.getElementById("SendMsg").classList.remove("active");
+    },
+    mouseleave: function () {
+        document.getElementById("SendMsg").classList.remove("active");
+    }
+});
 function showreply(){
     document.getElementById("reply-form").classList.toggle("active");
 }
@@ -20,19 +32,37 @@ function showAddPost() {
 	document.getElementById("addPost").classList.toggle("active");
 }
 function hideAddPost() {
-    if ($('.add-post-form-right-media').contents().length != 0){
+    // document.getElementById("addPost").classList.remove("active");
+
+    if ($('.add-post-form-right-media').contents().length != 0 || 
+        $('#post_title').val().length != 0 || 
+        $('#post_content').val().length != 0 
+        ){
         if (confirm('Post will be discarded. Continue? ')) {
             document.getElementById("addPost").classList.remove("active");
-            $('.add-post-form-right').css("display", "none");
-            $('.add-post-form-right-media').remove(); 
-            $('.add-post-form-right-media-hidden').remove(); 
+            // $('#post_title').val('');
+            // $('#post_content').val('');
+            // $('.add-post-form-right').css("display", "none");
+            // $('.add-post-form-right-media').remove(); 
+            // $('.add-post-form-right-media-hidden').remove(); 
+            location.reload();
+
         } else{
 
         }
-    }else{
-       
+    }else if(
+    $('#post_title').val().length == 0 || 
+    $('#post_content').val().length == 0 
+    ){
+        document.getElementById("addPost").classList.remove("active");
+    }else if( $('#post_name').val().length != 0){
+        if (confirm('Post will be discarded. Continue? ')) {
+            document.getElementById("addPost").classList.remove("active");
+        } else{
+        }
     }
-   
+    
+       
 }
 
 function showEditPost() {

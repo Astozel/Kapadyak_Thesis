@@ -60,7 +60,109 @@ $('.viewpost-body').ready(function () {
     });
 
 });
+$('.gallery-body').ready(function () {
+    $('.gallery-body-imgvid img').click(function () {
+        $('.img_view img').show();
+        $('.img_view video').hide();
+        var currImg = $(this);
+        var numImage = $('.gallery-body-content').children().length;
+        var total = numImage;
+        var src = $(this).attr('src');
+        var mediatitle = $(this).attr('post-title');
+        var mediadate = $(this).attr('post-date');
 
+        $('.media_full').fadeIn(200);
+        $('.img_view img').attr('src', src);
+        
+        $('.media-title').text(mediatitle);
+        $('.media-date').text(mediadate);
+
+        $('.prev').off('click').click(function () {
+
+            if ($(currImg).closest('.gallery-body-imgvid').prev().find('img').length) {
+                $(currImg).closest('.gallery-body-imgvid').prev().find('img').trigger('click');
+            }else if ($(currImg).closest('.gallery-body-imgvid').prev().find('video').length) {
+                $(currImg).closest('.gallery-body-imgvid').prev().find('video').trigger('click');
+            }
+            else{
+                $('.gallery-body-imgvid img:last').trigger('click');
+            }
+
+        });
+
+        $('.next').off('click').click(function () {
+            var posttitle = $('#getimgvidtitle').val();
+            var postdate = $('#getimgviddate').val();
+            $('.media-title').text(posttitle);
+            $('.media-date').text(postdate);
+            if ($(currImg).closest('.gallery-body-imgvid').next().find('img').length) {
+                $(currImg).closest('.gallery-body-imgvid').next().find('img').trigger('click');
+            }else if ($(currImg).closest('.gallery-body-imgvid').next().find('video').length) {
+                $(currImg).closest('.gallery-body-imgvid').next().find('video').trigger('click');
+            }
+            else{
+                $('.gallery-body-imgvid img:first').trigger('click');
+            }
+        });
+
+    });
+    $('.gallery-body-imgvid video').click(function () {
+        $('.img_view img').hide();
+        $('.img_view video').show();
+        
+        var currVid = $(this);
+        var src = $(this).attr('src');
+        var mediatitle = $(currVid).attr('post-title');
+        var mediadate = $(currVid).attr('post-date');
+
+        $('.media_full').fadeIn(200);
+        $('.img_view video').attr('src', src);
+        
+        $('.media-title').text(mediatitle);
+        $('.media-date').text(mediadate);
+
+
+        $('.prev').off('click').click(function () {
+
+            var media = $('#gallery-vid').get(0);
+            media.pause();
+            media.currentTime = 0;
+            if ($(currVid).closest('.gallery-body-imgvid').prev().find('img').length) {
+                $(currVid).closest('.gallery-body-imgvid').prev().find('img').trigger('click');
+            }else if ($(currVid).closest('.gallery-body-imgvid').prev().find('video').length) {
+                $(currVid).closest('.gallery-body-imgvid').prev().find('video').trigger('click');
+            }
+            else{
+                $('.gallery-body-imgvid img:last').trigger('click');
+            }
+
+        });
+
+        $('.next').off('click').click(function () {
+            var media = $('#gallery-vid').get(0);
+            media.pause();
+            media.currentTime = 0;
+            if ($(currVid).closest('.gallery-body-imgvid').next().find('img').length) {
+                $(currVid).closest('.gallery-body-imgvid').next().find('img').trigger('click');
+            }else if ($(currVid).closest('.gallery-body-imgvid').next().find('video').length) {
+                $(currVid).closest('.gallery-body-imgvid').next().find('video').trigger('click');
+            }
+            else{
+                $('.gallery-body-imgvid img:first').trigger('click');
+            }
+        });
+
+    });
+   
+    $('.view_close').click(function () {
+        $('.media_full').fadeOut(200);
+        var media = $('#gallery-vid').get(0);
+        media.pause();
+        media.currentTime = 0;
+    });
+     
+
+});
 $('.add-post-form-right-imgvid').ready(function () {
     $(this).on("click", ".add-post-form-right-media img", function(){
         $('.poster_full').fadeIn(200);

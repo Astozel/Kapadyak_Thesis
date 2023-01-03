@@ -15,7 +15,7 @@
   <!-- floating add post  -->
 	<div class="add-post" id="addPost">
 		<div class="add-post-form">
-		<?php include 'tips_byu.php';?>
+		<?php include 'poster_tips.php';?>
 		</div>
 	</div>
     <div class="index-container">
@@ -359,59 +359,7 @@ include('../session.php');
    
     <div class="feed-card-body">
    
-          <div class="card-body-header"> 
-                <ul> 
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
-                      <g class="fa-group">
-                        <path
-                            fill="currentColor"
-                            d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"
-                            class="fa-tertiary"
-                        ></path>
-                        <path
-                        ></path>
-                      </g>
-                    </svg>
-                    <span>
-                      (<font color="red"><?php  echo $post_row['threads']; ?></font>)
-                    </span>
-                  </li>
-                  <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                      <g class="fa-group">
-                        <path
-                            fill="currentColor"
-                            d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
-                            class="fa-tertiary"
-                        ></path>
-                        <path
-                            fill="currentColor"
-                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                            class="fa-tertiary"
-                        ></path>
-                      </g>
-                    </svg>
-                  <span>
-                    (<font color="orange"><?php  echo $post_row['views']; ?></font>)
-                  </span>
-                  </li>
-                  
-                  <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 16 16">
-                      <g class="fa-group">
-                        <path
-                            fill="currentColor"
-                            d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"
-                            class="fa-tertiary"
-                        ></path>
-                      </g>
-                    </svg>
-                  <span>(<font color="blue"><?php echo $post_row['replies']; ?></font>)</span>
-                  </li>
 
-                </ul>
-          </div>
 
             <div class="card-body-content">  
               <?php 
@@ -521,9 +469,7 @@ include('../session.php');
               ?>
               
               </div>
-              <div class="card-popup">
-              <a href="add_views.php?id=<?php echo $ppppp ?>">View Post</a>
-              </div>
+
               
             </div>
               

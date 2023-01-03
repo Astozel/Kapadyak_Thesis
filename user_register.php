@@ -207,7 +207,7 @@
                     </div>   
                </div>
             </div>
-            <div class="nextBtn" id="btnStep1"><input type="submit" value="Continue &#8594" name="register" class="Next" ></div>
+            <div class="nextBtn" id="btnStep1"><input type="submit" value="Continue &#8594" name="register" class="next-layer" ></div>
         </form> 
             <div id="register-layer2">
                 <div class="Layer-Already">Already have an account? <a href="login.php">Sign-in &#8594</a></div>
@@ -221,7 +221,7 @@
                     </div>
                     <?php include('email_verification.php'); ?>    
             </div>
-            <div class="nextBtn" id="btnStep2"><input type="submit" value="Validate &#8594" name="verify" class="Next"></div>
+            <div class="nextBtn" id="btnStep2"><input type="submit" value="Validate &#8594" name="verify" class="next-layer"></div>
             </form>
            
             <div id="register-layer3">
@@ -241,7 +241,7 @@
                     </div>
                     </div>
             </div>
-            <div class="nextBtn" id="btnStep3"><input type="submit" value="Sign Up" class="Next"></div>
+            <div class="nextBtn" id="btnStep3"><input type="submit" value="Sign Up" class="next-layer"></div>
         </form>
         </div>
       

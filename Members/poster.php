@@ -12,48 +12,46 @@ if (!isset($_SESSION['SessionEmail'])) {
   <?php  date_default_timezone_set('Asia/Manila'); include('../dbcon.php') ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="../style.css">
-<script src="../Scripts/index.js"></script>
-<title>Create Post</title>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../Scripts/index.js"></script>
+  <title>Create Post</title>
 </head>
 <body>
-    
-<div class="close-button" onclick="hideAddPost()">
-  <button>&times;</button>
-</div>
-<div class="add-form-title">CREATE POST</div>
-<form method="post" enctype="multipart/form-data">
+<div class="add-post-container">
+  <div class="close-button" onclick="hideAddPost()">
+    <button>&times;</button>
+  </div>
+  <div class="add-form-title">CREATE POST</div>
+<div class="add-post-form-container">
+<div class="add-post-form-left">
+  <form method="post" enctype="multipart/form-data">
 
     <select name="topic" hidden>
-        <?php  
-          $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
-          if($curPageName == "index.php"){
-            ?><option>FEED</option><?php
-          }elseif($curPageName == "feed_rental.php"){
-            ?><option>RENTAL</option><?php
-          }elseif($curPageName == "feed_events.php"){
-            ?><option>EVENT</option><?php
-          }elseif($curPageName == "feed_pre.php"){
-            ?><option>PRE LOVED</option><?php
-          }elseif($curPageName == "gallery.php"){
-            ?><option>GALLERY</option><?php
-          }
-        ?>  
+      <?php  
+      $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
+      if($curPageName == "index.php"){
+        ?><option>FEED</option><?php
+      }else if($curPageName == "feed_events.php"){
+        ?><option>EVENTS</option><?php
+      }else if($curPageName == "feed_pre.php"){
+        ?><option>PRE LOVED</option><?php
+      }
+      ?>   
     </select>
 
     <div class="add-form-subtitles">Title</div>
     <div class="add-form-inputs">
-      <input type="text" name="post_title" required>
+      <input type="text" name="post_title" id="post_title" required>
     </div>
     <div class="add-form-subtitles">Description</div>
     <div class="add-form-inputs">
-      <textarea name="post_content" required></textarea>
+      <textarea name="post_content" id="post_content" required></textarea>
     </div>
         <input type="text" id="lat" name="lat" placeholder="Your lat.." hidden>    
         <input type="text" id="lng" name="lng" placeholder="Your lng.." hidden>
@@ -74,97 +72,215 @@ if (!isset($_SESSION['SessionEmail'])) {
       </svg> Media
     </div>
         <div class="image-upload" title="Upload FIle">
-          <input type="file" id="image1" name="image[]" accept="multiple" onchange="showImage(event);" multiple>
+          <input type="file" id="image1" name="image[]" accept="multiple" multiple>
           <label for="image1">Add Photos/Videos</label>
-      <!-- <script>
-        $('#image1').on('change', function() {
-          if(this.files.length > 0){
-            var length = this.files.length;
-            <?php
-                $res=$data['post_image'];
-                $res=explode(" ",$res);
-                $count=count($res)-1;    
-
-            for($i=0;$i<$count;$i++)
-            {
-                $tmp = explode('.', $res[$i]);
-                $file_ext = end($tmp);
-                $mediaType = "";
-                switch ($file_ext) {
-                case "mp4":
-                case "mkv":
-                case "mov":
-                case "ogg":
-                case "webm":
-                    $mediaType = "video";
-                    break;
-                case "jpg":
-                case "jpeg":
-                case "gif":
-                case "png":
-
-                default:
-                    $mediaType = "image";
-                    break;
-                }
-                if($mediaType == "video"){
-                    ?>
-                    <div class="viewpost-body-container-vid">
-                    <video controls autoplay muted>
-                        <source src="../post_videos/<?= $res[$i]?>">
-                    </video>
-                    </div>
-                    <?php
-                }
-            } 
-            for($i=0;$i<$count;$i++)
-            {
-                $tmp = explode('.', $res[$i]);
-                $file_ext = end($tmp);
-                $mediaType = "";
-                switch ($file_ext) {
-                case "mp4":
-                case "mkv":
-                case "mov":
-                case "ogg":
-                case "webm":
-                    $mediaType = "video";
-                    break;
-                case "jpg":
-                case "jpeg":
-                case "gif":
-                case "png":
-
-                default:
-                    $mediaType = "image";
-                    break;
-                }
-                if($mediaType == "image"){   
-                    ?>
-                    <span class="viewpost-body-container">
-                    <img src="../post_images/<?= $res[$i]?>"/>
-                    </span>
-                    <?php
-                }
-            } 
-            
-                ?>
-
-          }
-          console.log(this.files[0].name);
-          
-        });   
-      </script> -->
-          <div class="image-preview">
-            <img id="image1-preview">
-          </div>
         </div>
+      </div>
+        <div class="add-post-form-right">
+          <div class="add-post-form-right-user">
+            <div class="add-post-form-right-user-img"><img src="<?php echo $userpicture;?>" alt="..."/></div>  
+            <div class="add-post-form-right-user-name"><?php echo $userfullname; ?></div>
+          </div>
+
+          <div class="add-post-form-right-imgvid"></div>
+
+          <script>
+          $('#image1').on('change', function() {
+            var fileList = document.getElementById("image1").files;
+            console.log(fileList);
+            if(fileList.length > 0){
+              $('.add-post-form-right').css("display", "block");
+              $('.add-post-form-right-media').remove(); 
+              $('.add-post-form-right-media-hidden').remove(); 
+
+              var vidcounter = 0;
+              var imgcounter = 0;
+              var counter = 0;
+
+              for(var i = 0 ; i < fileList.length ; i++){
+                var fileName = this.files[i].name;
+                var file_ext = fileName.split('.').pop();
+                var mediaType = "";
+                switch(file_ext) {
+                case "mp4":
+                case "mkv":
+                case "mov":
+                case "ogg":
+                case "webm":
+                    mediaType = "video";
+                    break;
+                case "jpg":
+                case "jpeg":
+                case "gif":
+                case "png":
+
+                default:
+                    mediaType = "image";
+                    break;
+                }
+                
+                 if(mediaType == "video"){
+                  counter = imgcounter + vidcounter;
+                  var div = document.createElement('div');
+                  Object.assign(div, {
+                  className: 'add-post-form-right-vid add-post-form-right-media',
+                  });
+                  if(vidcounter >= 6){
+                    div.classList.remove("add-post-form-right-media");
+                    div.classList.add("add-post-form-right-media-hidden");
+                    document.getElementsByClassName("poster_hidden")[0].appendChild(div);
+                    var vid = document.createElement('video');
+                    vid.src = URL.createObjectURL(this.files[counter]);
+                    vid.setAttribute("controls","");
+                    document.getElementsByClassName('add-post-form-right-vid')[vidcounter+1].appendChild(vid);
+                  }else{
+                    //excess background
+                    if(vidcounter == 6){
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var vid = document.createElement('video');
+                      vid.src = URL.createObjectURL(this.files[counter]);
+                      vid.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter].appendChild(vid);
+                    //excess background - loop again to throw it in hidden
+                      var div2 = document.createElement('div');
+                      Object.assign(div2, {
+                      className: 'add-post-form-right-vid add-post-form-right-media',
+                      });
+                      div2.classList.remove("add-post-form-right-media");
+                      div2.classList.add("add-post-form-right-media-hidden");
+                      document.getElementsByClassName("poster_hidden")[0].appendChild(div2);
+                      var vid2 = document.createElement('video');
+                      vid2.src = URL.createObjectURL(this.files[counter]);
+                      vid2.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter+1].appendChild(vid2);
+                    }else{
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var vid = document.createElement('video');
+                      vid.src = URL.createObjectURL(this.files[counter]);
+                      vid.setAttribute("controls","");
+                      document.getElementsByClassName('add-post-form-right-vid')[vidcounter].appendChild(vid);
+                    }
+
+                  }
+                  vidcounter++;
+                  console.log("vid: "+vidcounter);
+
+                } else if(mediaType == "image"){
+                  imgcounter++;
+                  console.log("img: " + imgcounter);
+                }
+              }
+
+              var vidcounter2 = 0;
+              var imgcounter2 = 0;
+              var counter2 = 0;
+
+                for(var i = 0 ; i < fileList.length ; i++){
+                var fileName = this.files[i].name;
+                var file_ext = fileName.split('.').pop();
+                var mediaType = "";
+                switch(file_ext) {
+                case "mp4":
+                case "mkv":
+                case "mov":
+                case "ogg":
+                case "webm":
+                    mediaType = "video";
+                    break;
+                case "jpg":
+                case "jpeg":
+                case "gif":
+                case "png":
+
+                default:
+                    mediaType = "image";
+                    break;
+                }
+                
+                 if(mediaType == "image"){
+                  counter2 = imgcounter2 + vidcounter2;
+                  var div = document.createElement('div');
+                  Object.assign(div, {
+                  className: 'add-post-form-right-img add-post-form-right-media',
+                  });
+                  if(counter2 >= 6){
+                    div.classList.remove("add-post-form-right-media");
+                    div.classList.add("add-post-form-right-media-hidden");
+                    document.getElementsByClassName("poster_hidden")[0].appendChild(div);
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(this.files[counter2]);
+                    document.getElementsByClassName('add-post-form-right-img')[imgcounter2+1].appendChild(img);
+                  }else{
+                    //excess background
+                    if(counter2 == 5){
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var img = document.createElement('img');
+                      img.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2].appendChild(img);
+
+                    //excess background - loop again to throw it in hidden
+                      var div2 = document.createElement('div');
+                      Object.assign(div2, {
+                      className: 'add-post-form-right-img add-post-form-right-media',
+                      });
+                      div2.classList.remove("add-post-form-right-media");
+                      div2.classList.add("add-post-form-right-media-hidden");
+                      document.getElementsByClassName("poster_hidden")[0].appendChild(div2);
+                      var img2 = document.createElement('img');
+                      img2.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2+1].appendChild(img2);
+                    }else{
+                      document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                      var img = document.createElement('img');
+                      img.src = URL.createObjectURL(this.files[counter2]);
+                      document.getElementsByClassName('add-post-form-right-img')[imgcounter2].appendChild(img);
+                    }
+                  }
+                  imgcounter2++;
+                  console.log("img: " + imgcounter2);
+                  
+                } else if(mediaType == "video"){
+                  vidcounter2++;
+                  console.log("vid: "+vidcounter2);
+                }
+                  //excess counter
+                  if (i == 5) {
+                  counter = (imgcounter + vidcounter)-5;
+                  var excess = document.createElement('div');
+                  Object.assign(excess, {
+                  className: 'add-post-form-excesscounter',
+                  })
+                  document.getElementsByClassName("add-post-form-right-imgvid")[0].appendChild(div);
+                  excess.appendChild(document.createTextNode("+" + counter));
+                  document.getElementsByClassName('add-post-form-right-media')[i].appendChild(excess);
+                  }  
+              }
+            
+            }
+            });   
+
+          </script>
+        </div>
+
+                <div class="poster_full">
+                    <div class="poster_img_view">
+                      <img id="img" src="" alt="" />
+                    </div>
+                    <button class="poster_view_close" type="button">&times;</button>
+                </div>
+                <div class="poster_hidden">
+                  <button class="poster_hidden_view_close view_close" type="button">&times;</button>
+                </div>
+
+                <script src="../Scripts/fullscreen-image.js"></script>
+
+    </div>
     <div class="post-button">
       <button type="submit" name="post">Post</button>
     </div>
 
-</form>
-
+  </form>
+</div>
   <?php
       if (isset($_POST['post'])){
         $errors= array();
@@ -258,12 +374,12 @@ include 'locations-modal.php';
 //get_unconfirmed_locations();exit;
 ?>
 
-</div>
+</div> 
     <div class="add-location-popup">
+      <button class="map-btn" type="button">&times;</button>
       <div class="add-location-container">
-        <button class="map-btn" type="button">&times;</button>
-        <div id="geocoder"></div>
-        <div id="map"></div>
+      <div id="geocoder"></div>
+      <div id="map"></div>
       </div>
     </div>
 
@@ -273,7 +389,7 @@ include 'locations-modal.php';
             $('.add-location-popup').fadeOut(200);
           });
           $('.add-form-location').click(function () {
-            $('.add-location-popup').fadeIn(200);
+            $('.add-location-popup').show();
           });
     </script>
 
@@ -313,7 +429,9 @@ include 'locations-modal.php';
         map.on('load', function() {
             addMarker(user_location,'load');
             add_markers(saved_markers);
-
+            map.on('render', function() {
+                map.resize();
+            });
             // Listen for the `result` event from the MapboxGeocoder that is triggered when a user
             // makes a selection and add a symbol that matches the result.
             geocoder.on('result', function(ev) {
@@ -338,7 +456,7 @@ include 'locations-modal.php';
               alert("There was an error while geocoding: " + errorThrown);
             });
         });
-
+    
         function addMarker(ltlng,event) {
 
             if(event === 'click'){
@@ -373,7 +491,6 @@ include 'locations-modal.php';
             console.log('lng: ' + lngLat.lng + '<br />lat: ' + lngLat.lat);
         }
 
-     
 
                     map.addControl(
             new mapboxgl.GeolocateControl({
@@ -388,5 +505,6 @@ include 'locations-modal.php';
         );
         document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
     </script>
-
+</body>
+</html>
 

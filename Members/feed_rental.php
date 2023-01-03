@@ -20,7 +20,7 @@ include '../dbcon.php';
         })
         });
     </script>
-	<title>Rental | Kapadyak</title>
+	<title>RENTAL | Kapadyak</title>
 </head>
 <body>
   <!-- floating add post  -->

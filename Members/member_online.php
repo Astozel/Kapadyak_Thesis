@@ -18,19 +18,13 @@
 
 <body>
 
-        <div class="member-online-content">
-   
-      
+  <div class="member-online-content">
+
  	<table cellpadding="0" cellspacing="0" border="0" class="table table-bordered" id="example"  >
-	
- 
- 
- 
- 
  
 	<tr>
 <td>  <h1>Members</h1>
-   Forum Administrators :
+  Administrators :
                   <hr />
 	<?php
 		$query = $conn->query("select * from user order by lname ASC") or die(mysql_error());
@@ -41,22 +35,34 @@
          
          <tr>
         
-   <td rowspan="2"><img src="../images/logo_forum.png" width="25" height="35" class="img-square" /></td>
-    <td rowspan="2">&nbsp;</td>
-
-        	<td width="197"><?php echo $row['username']." | Admin"; ?> &nbsp; <a href="compose_msg_admin.php?id=<?php echo $row['user_id'] ;  ?>" title="click to send a message to <?php echo $row['fname']." ".$row['mname']." ".$row['lname']; ?>"><li>Message</li></a></td> 
+   <td rowspan="2"><img src="../Images/logo_forum.png" width="25" height="35" class="img-square"/></td>
+   
+   <td width="197"><?php echo $row['username']." | Admin"; ?> &nbsp; 
+          <span class="sendMessageBtn">
+                <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="getid" value="<?php echo $row['user_id']; ?>">
+                <button type="submit" name="send-message-admin" class="edit-delete-button">
+                    <a title="click to send a message to <?php echo $row['fname']." ".$row['mname']." ".$row['lname']; ?>">
+                        <li>Message</li>    
+                        <i class="fa fa-comment-o"></i>
+                    </a>
+                </button>
+                </form> 
+                    
+                </span>
+          </td> 
 
 	 <td  rowspan="2"><?php 
             
             if($row['status']=="active"){  
                 ?>
-            <img src="../images/active.png" width="12" height="12" alt="..." class="img-circle">
+            <img src="../Images/active.png" width="12" height="12" alt="..." class="img-circle">
                  <?php    
             }
             else
             {
                 ?>
-                <img src="../images/inactive.png" width="12" height="12" alt="..." class="img-circle">
+                <img src="../Images/inactive.png" width="12" height="12" alt="..." class="img-circle">
              <?php    
             }
             
@@ -89,7 +95,7 @@
 
 		<tr>
          <td>
-           Forum Members :
+           Members :
                   <hr />
                 
            	<?php
@@ -133,15 +139,21 @@
             }
           }
             ?>
-          " width="25" height="35" class="img-square" /></td>
-    <td rowspan="2">&nbsp;</td>
+          " width="25" height="35" class="img-square" alt="../Images/default-profile.png"/></td>
+
         	<td width="197"><?php echo $row['username']." | ".$row['access']; ?> &nbsp;  
        
                 <span class="sendMessageBtn">
-                    <a href="inbox.php?id=<?php echo $id; ?>" title="click to send a message to <?php echo $row['first_name']." ".$row['middle_name']." ".$row['last_name']; ?>">
+                <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="getid" value="<?php echo $id; ?>">
+                <button type="submit" name="send-message" class="edit-delete-button">
+                    <a title="click to send a message to <?php echo $row['first_name']." ".$row['middle_name']." ".$row['last_name']; ?>">
                         <li>Message</li>    
                         <i class="fa fa-comment-o"></i>
                     </a>
+                </button>
+                </form> 
+                    
                 </span>
               
        

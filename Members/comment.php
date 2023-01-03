@@ -19,8 +19,15 @@ date_default_timezone_set('Asia/Manila');
 	<title>Manage Post</title> 
 </head>
  
- 
 <body>
+    
+    <!-- floating message post  -->
+<div class="add-post" id="addPost">
+    <div class="add-post-form">
+    <?php include 'compose_msg.php';?>
+    </div>
+</div>
+
 <div class="comment-page-container">
 		<div class="comment-page-sidenav">
 			<?php include '../Includes/Sidebar.php'; ?>
@@ -50,7 +57,7 @@ date_default_timezone_set('Asia/Manila');
             $pmem_query = $conn->query("select * from user where user_id='$mmmmm'");
             while($pmem_row = $pmem_query->fetch())
             {
-            $pmimg="../images/logo_forum.png";
+            $pmimg="../Images/logo_forum.png";
             $pmname=$pmem_row['fname']." ".$pmem_row['mname']." ".$pmem_row['lname']." - Admin";
             } 
                     
@@ -61,7 +68,13 @@ date_default_timezone_set('Asia/Manila');
                     
             while($pmem_row = $pmem_query->fetch())
             {
-            $pmimg=$pmem_row['image'];
+            $pmimg = $pmem_row['image'];
+            if($pmimg == ""){
+                $pmimg = "../Images/default-profile.png";
+            } else{
+                $pmimg=$pmem_row['image'];
+            }
+          
             $pmname=$pmem_row['first_name']." ".$pmem_row['middle_name']." ".$pmem_row['last_name'];
             } 
             }
@@ -73,9 +86,31 @@ date_default_timezone_set('Asia/Manila');
             <div class="viewpost-container">
                 <div class="viewpost-header">
                     <div class="viewpost-header-user"> 
-                        <div class="viewpost-header-img"><img src="<?php echo $pmimg;?>" alt="..."/></div>  
+                        <div class="viewpost-header-img"><img src="<?php echo $pmimg;?>" alt="../Images/default-profile.png"/></div>  
                         <div class="viewpost-header-text">   
-                            <div class="viewpost-header-name"><?php echo $pmname; ?></div>
+                            <div class="viewpost-header-name"><?php echo $pmname; ?>
+                            <div class="sendmsg-pop" id="SendMsg">
+                                <div class="sendmsg-menu">
+                                    <a href="../members/personal_info_panel.php" title="View Profile">
+                                        <div>
+                                        <img src="<?php echo $pmimg;?>" alt="../Images/default-profile.png"/>
+                                        <?php echo $pmname; ?>
+                                        </div>
+                                    </a>
+                                    <form method="post" enctype="multipart/form-data" >
+                                    <input type="hidden" name="getid" value="<?php echo $mmmmm; ?>">
+                                        <button type="submit" id="sendmsgbtn" name="send-message">Send Message</button>
+                                        <?php
+                                            if($mmmmm == $id2){                                
+                                            ?><script>document.getElementById("sendmsgbtn").style.display="none";</script><?php
+                                            }
+                                        ?>
+                                    </form> 
+                                   
+                                </div>
+                            </div>
+                            </div>
+
                             <div class="viewpost-header-date"><?php echo $post_row['date_posted'];?></div>
                             <?php if($loc!=""){  ?>
                                 <div class="viewpost-header-location">
@@ -646,13 +681,16 @@ date_default_timezone_set('Asia/Manila');
             	<?php
 				if (isset($_POST['reply']))
                 {
+                if($_FILES['image']['size'] != 0){
 				$repz_image = addslashes(file_get_contents($_FILES['repz_image']['tmp_name']));
                 $repz_image_name = addslashes($_FILES['repz_image']['name']);
                 $repz_image_size = getimagesize($_FILES['repz_image']['tmp_name']);
 
                 move_uploaded_file($_FILES["repz_image"]["tmp_name"], "../repz_images/" . $_FILES["repz_image"]["name"]);
                 $repz_location = "../repz_images/" . $_FILES["repz_image"]["name"];
-						 
+                } else{
+                $repz_location = "../repz_images/";
+                } 
 				$topic_id = $_POST['post_id'];
 				$comment_id = $_POST['comment_id'];
 				$reply_content = $_POST['reply_content'];
@@ -687,26 +725,29 @@ date_default_timezone_set('Asia/Manila');
                 
                 if (isset($_POST['comment']))
                 {
-                    
+                   
+                if($_FILES['image']['size'] != 0){
 				$image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
                 $image_name = addslashes($_FILES['image']['name']);
                 $image_size = getimagesize($_FILES['image']['tmp_name']);
 
                 move_uploaded_file($_FILES["image"]["tmp_name"], "../comment_images/" . $_FILES["image"]["name"]);
                 $location = "../comment_images/" . $_FILES["image"]["name"];
-						 
+                } else{
+                $location = "../comment_images/";
+                }
 				$topic = $_POST['topic'];
 				$post_idx = $_POST['post_id'];
 				$comment_content = $_POST['comment_content'];
 				$date_comment = date('M'.' '.'d'.', '.'Y')." | ".date("h:i:s A");
 						
                         
-                         $query_threads_ctr = $conn->query("select * from members where member_id='$id2'") or die(mysql_error());
-		while ($row_query_threads_ctr = $query_threads_ctr->fetch()) 
-        {
-            $ctr_threads=$row_query_threads_ctr['threads_ctr']+1;
-            	$conn->query("update members set threads_ctr='$ctr_threads' where member_id='$id2'");
-        }
+                $query_threads_ctr = $conn->query("select * from members where member_id='$id2'") or die(mysql_error());
+                while ($row_query_threads_ctr = $query_threads_ctr->fetch()) 
+                {
+                    $ctr_threads=$row_query_threads_ctr['threads_ctr']+1;
+                    $conn->query("update members set threads_ctr='$ctr_threads' where member_id='$id2'");
+                }
         	
                 $conn->query("insert into comment (member_id,date_commented,comment_content,post_id,comment_image,access) values ('$id2','$date_comment','$comment_content','$post_idx','$location','Member')");
 				$post_query = $conn->query("select * from post where post_id='$post_idx'");
@@ -716,7 +757,7 @@ date_default_timezone_set('Asia/Manila');
                 }
                 $conn->query("update post set threads='$threads' where post_id='$post_idx' ");
                 ?>
-                <script>window.location = 'comment.php<?php echo "?id=".$post_idx; ?>';</script>	
+                    <script>window.location = 'comment.php<?php echo "?id=".$post_idx; ?>';</script>	
 				<?php
                 } ?>
                                

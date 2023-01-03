@@ -61,3 +61,24 @@ $("#reply-image-upload").change(function(event) {
   }
 
 });
+
+$('#message-image-upload').on('change', function() {
+
+  if(this.files[0].size > 524288) {
+    alert("Please upload file less than 50MB.");
+    $(this).val('');
+  }else{
+    var fileName = $('#message-image-upload').val().split('\\').pop();
+    var _size = this.files[0].size;
+    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+    i=0;while(_size>900){_size/=1024;i++;}
+    var exactSize = (Math.round(_size*100)/100)+' '+fSExt[i];
+    console.log('FILE SIZE = ',exactSize);
+    $("#message-image-upload").click();
+    if(this.files.length > 1) {
+    $('#message-span-text').text("Multiple files selected");
+    } else{
+    $('#message-span-text').text(fileName + " - " + exactSize);
+    }
+  }
+});   

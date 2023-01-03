@@ -205,7 +205,7 @@
         
                               <!-- Manage Member -->
                               <li class="nav-item">
-                <a href="tips.php" class="nav-link ">
+                <a href="feed_tips.php" class="nav-link ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-workspace" viewBox="0 0 16 16">
                 <g class="fa-group">
                     <path

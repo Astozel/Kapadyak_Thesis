@@ -13,11 +13,11 @@
 
     <div class="add-form-subtitles">Title</div>
     <div class="add-form-inputs">
-      <input type="text" name="post_title" required>
+      <input type="text" name="post_title" id="post_title" required>
     </div>
     <div class="add-form-subtitles">Description</div>
     <div class="add-form-inputs">
-      <textarea name="post_content" required></textarea>
+      <textarea name="post_content" id="post_content" required></textarea>
     </div>
         <input type="text" id="lat" name="lat" placeholder="Your lat.." hidden>    
         <input type="text" id="lng" name="lng" placeholder="Your lng.." hidden>
@@ -319,7 +319,7 @@
         }
                               
         $connect->query("insert into post (member_id,date_posted,post_content,post_title,post_image,topic,access,lat,lng,loc) values('$id2','$date_posted','$post_content','$post_title','$data','$topic','Member','$lat','$lng','$address')");
-        if($topic=="FEED")
+        if($topic=="RENTAL")
         {
 
         ?>

@@ -6,32 +6,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events | Kapadyak</title>
-</head>
-<body>
-  <!-- floating add post  -->
-	<div class="add-post" id="addPost">
-		<div class="add-post-form">
-		<?php include 'poster.php';?>
-		</div>
-	</div>
-    <div class="index-container">
-		<div class="index-sidenav">
-		<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" />
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
-        rel="stylesheet"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="ICON" type="image/x-icon" href="../Images/logo.ico">
+	<link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="application/javascript">
         $(document).ready(function(){
         $('nav ul li a').click(function(){
@@ -40,9 +20,18 @@
         })
         });
     </script>
-    <title>Sidebar</title>
+	<title>EVENTS | Kapadyak</title>
 </head>
 <body>
+  <!-- floating add post  -->
+	<div class="add-post" id="addPost">
+		<div class="add-post-form">
+		<?php include 'poster_events.php';?>
+		</div>
+	</div>
+    <div class="index-container">
+		<div class="index-sidenav">
+		
     <nav class="navbar">
         <ul class="navbar-nav">
 <!-- Logo -->

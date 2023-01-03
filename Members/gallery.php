@@ -11,24 +11,6 @@ include('../session.php');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="ICON" type="image/x-icon" href="../Images/logo.ico">
 	<link rel="stylesheet" type="text/css" href="../style.css">
-	<title>Gallery | Kapadyak</title>
-</head>
-<body>
-  <!-- floating add post  -->
-	<div class="add-post" id="addPost">
-		<div class="add-post-form">
-		<?php include 'poster.php';?>
-		</div>
-	</div>
-    <div class="index-container">
-		<div class="index-sidenav">
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" />
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
         rel="stylesheet"
@@ -42,9 +24,18 @@ include('../session.php');
         })
         });
     </script>
-    <title>Sidebar</title>
+	<title>Gallery | Kapadyak</title>
 </head>
 <body>
+  <!-- floating add post  -->
+	<div class="add-post" id="addPost">
+		<div class="add-post-form">
+		<?php include 'poster.php';?>
+		</div>
+	</div>
+    <div class="index-container">
+		<div class="index-sidenav">
+   
     <nav class="navbar">
         <ul class="navbar-nav">
 <!-- Logo -->
@@ -230,7 +221,7 @@ include('../session.php');
         
         <!-- Manage Member -->
         <li class="nav-item">
-<a href="tips.php" class="nav-link ">
+<a href="feed_tips.php" class="nav-link ">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-workspace" viewBox="0 0 16 16">
 <g class="fa-group">
 <path
@@ -251,106 +242,94 @@ include('../session.php');
 </ul>
 </nav>
    
-</body>
-</html>		</div>
+</div>
 
 		<div class="index-header">
 			<?php include '../Includes/Header.php'; ?>
 		</div>
 
 		<div class="index-content">
-
-<div id="masthead">  
-  <div class="container">
-  </div><!-- /cont -->
-  
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="top-spacer"> </div>
-      </div>
-    </div> 
-  </div><!-- /cont -->
-  
-</div>
-
-
-<div class="container">
-  <div class="row">
-    
-    <div class="col-md-12"> 
-      
-      <div class="panel">
-        <div class="panel-body">
           
-			<h2 id="po">My Photos</h2>
-				<div class="pull-right">
-							<form id="photos"   method="POST" enctype="multipart/form-data">
+                    
+            <div class="gallery-content">  
+                <div class="message-title gallery-title"> 
+                    <span>My Gallery </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
+                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                    <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+                    </svg>
+                </div>
+                <div class="gallery-body">
+                <div class="gallery-body-content">
+                <?php 
+                $i="";
+                $query = $conn->query("select * from post where member_id='$id2' ORDER BY post_id DESC");
+                while($row = $query->fetch()){
 
-									<label class="control-label" for="input01">Image:</label>
-									
-										<input type="file" name="image" class="font" required>
-									
-								
-						
-								
-										<button type="submit" name="submit" class="btn btn-success"><i class="icon-upload"></i> Upload</button>
-								
-							</form>
-							<?php 
-								if (isset($_POST['submit'])) {
- 
-		$image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
-		$image_name = addslashes($_FILES['image']['name']);
-		$image_size = getimagesize($_FILES['image']['tmp_name']);
- 
-		move_uploaded_file($_FILES["image"]["tmp_name"], "../upload-im/" . $_FILES["image"]["name"]);
-		$location = "../upload-im/" . $_FILES["image"]["name"];
-		$conn->query("insert into photos (location,member_id) values ('$location','$id2')");
-	?>
-	<script>
-		window.location = 'gallery.php';
-	</script>
-	<?php
-	}
-	?>
-				</div>
-			
-          <div class="row">  		  
-            <hr>
-            <hr>
-				<?php
-	$query = $conn->query("select * from photos where member_id='$id2'");
-	while($row = $query->fetch()){
-	$id = $row['photos_id'];
-	?>
-            <div class="col-md-2 col-sm-3 text-center">
-				<img class="photo" src="<?php echo $row['location']; ?>" width="160" height="150">
-				<hr>
-	<a class="btn btn-danger" href="delete-photo.php<?php echo '?id='.$id; ?>"><i class="icon-remove"></i> Delete</a>
-            </div>
-				<?php } ?>
-          </div>
-          <hr>
-                  
-    
-
-
-          
-
-
-          
-        </div>
-      </div>
-                                                                                       
-	                                                
-                                                      
-   	</div><!--/col-12-->
-  </div>
-</div>
-                                                
-                                                                                
-
+                    $res=$row['post_image'];
+                    $restitle=$row['post_title'];
+                    $resdate=$row['date_posted'];
+                    $res=explode(" ",$res);
+                    $count=count($res)-1;     
+                    for($i=0;$i<$count;$i++)
+                    {
+                        $tmp = explode('.', $res[$i]);
+                        $file_ext = end($tmp);
+                        $mediaType = "";
+                        switch ($file_ext) {
+                        case "mp4":
+                        case "mkv":
+                        case "mov":
+                        case "ogg":
+                        case "webm":
+                            $mediaType = "video";
+                            break;
+                        case "jpg":
+                        case "jpeg":
+                        case "gif":
+                        case "png":
         
-    </body>
+                        default:
+                            $mediaType = "image";
+                            break;
+                        }
+                        if($mediaType == "video"){
+                            ?>
+                            <div class="gallery-body-imgvid">
+                            <video autoplay muted src="../post_videos/<?= $res[$i]?>" post-title="<?php echo $restitle; ?>" post-date="<?php echo $resdate; ?>">
+                                <source >
+                            </video>
+                            </div>
+                            <?php
+                        }else if($mediaType == "image"){   
+                            ?>
+                            <div class="gallery-body-imgvid" >
+                            <img src="../post_images/<?= $res[$i]?>" post-title="<?php echo $restitle; ?>" post-date="<?php echo $resdate; ?>"/>
+                            </div>
+                            <?php
+                        }
+                         
+                        }
+                    }
+                ?>
+                </div>
+                </div>
+                    <div class="media_full">
+                        <div class="media-title"></div>
+                        <div class="media-date"></div>
+                        <div class="img_view">
+                            <img id="img" src="" alt="" />
+                            <video controls autoplay id="gallery-vid">
+                                <source src="">
+                            </video>
+                        </div>
+                        <button class="prev" id="prev">◀</button>
+                        <button class="next" id="next">▶</button>
+                        <button class="view_close" type="button">&times;</button>
+                    </div>
+                    <script src="../Scripts/fullscreen-image.js"></script>
+            </div>
+
+</div>                                                                                                         
+</body>
 </html>
